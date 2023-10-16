@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  margin: 0;
+}
+
+/* body {
+  background-color: #181818;
+} */
+
+.title-bar {
+  -webkit-app-region: drag;
+}

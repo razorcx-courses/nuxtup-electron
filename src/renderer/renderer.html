@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html class="bg-[#181818]">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'" /> -->
+    <title>NuxtUp - The unOfficial Nuxt 3 Installer</title>
+    <link href="css/output.css" rel="stylesheet" />
+    <!-- npx tailwindcss -i ./src/renderer/css/input.css -o ./src/renderer/css/output.css --watch -->
+    <script defer src="js/renderer.js"></script>
+  </head>
+  <body
+    class="h-screen bg-[#181818] bg-[url('../images/green-dots.png')] bg-cover bg-no-repeat bg-top-left"
+  >
+    <!-- TUTORIAL - Electron JS - Custom Title Bar / Frameless Window - IPC Main/IPC Renderer - MODERN GUI -->
+    <div
+      class="top-bar flex justify-between bg-[#181818] w-full pl-4 items-center animate-fade animate-once animate-normal"
+    >
+      <div
+        id="title-bar"
+        class="title-bar text-white flex-grow font-bold text-xl"
+      >
+        Nuxt<span class="font-normal text-success">Up</span>
+        <!-- <span class="text-sm"> - The unOfficial Nuxt 3 Installer</span> -->
+      </div>
+      <div class="flex justify-between items-center">
+        <button
+          onclick="minimizeWindow()"
+          id="minimizeBtn"
+          class="hover:bg-[#212121] p-3"
+        >
+          <img src="images/minimize.svg" alt="" width="20" height="20" />
+        </button>
+        <button
+          onclick="maximizeWindow()"
+          id="maximizeBtn"
+          class="hover:bg-[#212121] p-3"
+        >
+          <img src="images/maximize.svg" alt="" width="20" height="20" />
+        </button>
+        <button
+          onclick="closeWindow()"
+          id="closeBtn"
+          class="hover:bg-[#212121] p-3"
+        >
+          <img src="images/close.svg" alt="" width="20" height="20" />
+        </button>
+      </div>
+    </div>
+
+    <div class="w-full">
+      <header
+        class="flex flex-col justify-center items-center py-10 animate-fade-up"
+      >
+        <h1 id="title" class="text-3xl font-bold text-white leading-relaxed">
+          Nuxt<span class="font-normal text-success">Up</span>
+        </h1>
+        <p
+          id="description"
+          class="text-lg text-[#a9a9a9] animate-fade-up animate-delay-400 animate-once"
+        >
+          The unOfficial Nuxt 3 Installer
+        </p>
+      </header>
+
+      <div class="flex flex-col items-center mx-auto mb-6 gap-3">
+        <!-- <label for="project-dir"" class="">Project directory</label> -->
+        <input
+          type="text"
+          placeholder="Select project directory"
+          id="project-dir"
+          class="input input-bordered w-full max-w-xs cursor-pointer text-[#a9a9a9] bg-[#272727] animate-fade-right animate-delay-600 animate-once hover:bg-[#313131]"
+          onclick="selectDir()"
+          readonly
+        />
+
+        <input
+          type="text"
+          placeholder="Provide project name"
+          id="project-name-input"
+          class="input input-bordered w-full max-w-xs text-[#a9a9a9] bg-[#272727] animate-fade-left animate-delay-600  animate-once hover:bg-[#313131]"
+          onkeyup="updateProjectName(event.target.value)"
+        />
+      </div>
+
+      <div class="flex flex-col md:flex-row text-slate-100">
+        <div
+          class="flex bg-[#272727]/70 w-full md:w-1/2 justify-center md:justify-end md:pr-12 animate-fade-up animate-delay-400 animate-once"
+        >
+          <div class="flex flex-col md:w-8/12 w-3/5 py-8">
+            <p class="text-[#a9a9a9]">Choose dependencies for this project:</p>
+            <div class="flex flex-col justify-between h-full">
+              <div id="select-dependencies" class="form-control mt-5 mb-6">
+                <!-- <label
+                  class="label cursor-pointer justify-start mb-0 animate-flip-up animate-once animate-normal hover:bg-gray-600/20 py-2 px-4 rounded-md"
+                >
+                  <input
+                    type="checkbox"
+                    id="${e.name}-checkbox"
+                    class="checkbox checkbox-success"
+                    onchange="updateDependencies('${e.name}', event.target.checked)"
+                  />
+                  <span class="ml-3">Tailwind</span>
+                </label>
+                <label
+                  class="label cursor-pointer justify-start my-0 animate-flip-up animate-once animate-normal hover:bg-gray-600/20 py-2 px-4 rounded-md"
+                >
+                  <input
+                    type="checkbox"
+                    id="${e.name}-checkbox"
+                    class="checkbox checkbox-success"
+                    onchange="updateDependencies('${e.name}', event.target.checked)"
+                  />
+                  <span class="ml-3">Tailwind Typography</span>
+                </label> -->
+              </div>
+              <button
+                onclick="createProject()"
+                class="btn btn-success px-8 py-3 rounded-md text-[#181818] font-semibold uppercase mx-auto  hover:bg-[#93dbc0]"
+              >
+                Create Project
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="flex bg-[#212121]/70 w-full md:w-1/2 justify-center md:justify-start md:pl-12 animate-fade-up animate-delay-400 animate-once"
+        >
+          <div class="flex flex-col md:w-3/4 w-3/5 py-8">
+            <p class="text-[#a9a9a9]">Installation Status</p>
+            <div
+              id="status"
+              class="text-sm w-full font-mono overflow-y-auto overflow-x-hidden space-y-1 h-[380px] mt-5"
+            >
+              <!-- <div class="flex flex-row justify-between w-full items-center">
+                <p class="w-full">Init Nuxt 3 project</p>
+                <p
+                  id="${args.id}"
+                  class="text-slate-100 ml-2 bg-primary rounded-full px-3"
+                >
+                  Working
+                </p>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="toast" class="toast toast-center hidden">
+        <div class="alert alert-info">
+          <span id="toast-content"></span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
